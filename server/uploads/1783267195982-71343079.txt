@@ -1,0 +1,80 @@
+GUIDE: Styling Elements for Light Theme using 'useTheme' hook
+
+This guide details how to style any element or component differently depending on the active theme (Light vs. Dark) in this project using the React `useTheme` context hook, referencing our color theme CSS variables.
+
+================================================================================
+UNDERSTANDING THE PROJECT COLOR VARIABLES
+================================================================================
+The project has the following CSS theme variables defined in globals.css. They automatically change their values when the theme changes:
+
+| Variable | Dark Theme Value (Default) | Light Theme Value |
+|----------|----------------------------|-------------------|
+| `var(--background)` | #000000 | #ffffff |
+| `var(--foreground)` | #ffffff | #111111 |
+| `var(--surface)` | #0a0a0a | #ffffff |
+| `var(--surface-elevated)` | #141414 | #f8f8f8 |
+| `var(--text)` | #ffffff | #111111 |
+| `var(--text-body)` | rgba(255,255,255,.8) | #444444 |
+| `var(--text-muted)` | rgba(255,255,255,.55) | #777777 |
+| `var(--accent)` | #B0FFFA | #00b1a6 |
+| `var(--border)` | rgba(255,255,255,.08) | #e5e7eb |
+
+================================================================================
+STYLING GUIDE (using 'useTheme')
+================================================================================
+Use this approach when you want to conditionally apply colors, borders, hover backgrounds, or inline styles in React components.
+
+Step 1: Import the hook
+-----------------------
+At the top of the component file, import `useTheme` from `ThemeContext` (adjust the relative path depending on your file's location):
+
+import { useTheme } from "../Common/ThemeContext";
+
+
+Step 2: Destructure the active theme
+------------------------------------
+Inside the component, retrieve the current active theme string ("light" or "dark"):
+
+const { theme } = useTheme();
+
+
+Step 3: Apply styles conditionally in JSX
+-----------------------------------------
+
+--- Example A: Hover Background & Text Colors ---
+For button hovers and dropdown items, change hover styling while preserving project variables:
+
+className={`transition-all ${
+  theme === "light" 
+    ? "hover:bg-black/5 text-[var(--text-body)]" 
+    : "hover:bg-white/5 text-[var(--text-body)]"
+}`}
+
+
+--- Example B: Conditional Inline Colors & Backgrounds ---
+Assign styles dynamically via the `style` attribute using our CSS variables:
+
+style={{
+  color: theme === "light" ? "var(--text)" : "var(--text-body)",
+  backgroundColor: theme === "light" ? "var(--surface-elevated)" : "var(--surface)"
+}}
+
+
+--- Example C: Theme-Sensitive Borders & Elements ---
+Toggle borders using variables or custom border utility classes:
+
+className={`border-b ${
+  theme === "light" 
+    ? "border-[var(--border)]" 
+    : "border-zinc-800"
+}`}
+
+
+--- Example D: Specific Color Fallbacks (when not using variables) ---
+If a design specifically requests standard solid CSS colors on light theme:
+
+className={`p-4 rounded-xl ${
+  theme === "light"
+    ? "bg-gray-100 text-gray-900"
+    : "bg-zinc-900 text-zinc-100"
+}`}
