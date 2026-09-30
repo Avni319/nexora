@@ -14,14 +14,15 @@ import dashboardRoutes from "./routes/dashboardRoutes.js";
 import teamRoutes from "./routes/teamRoutes.js";
 import organizationMemberRoutes from "./routes/organizationMemberRoutes.js";
 import meetingRoutes from "./routes/meetingRoutes.js";
+import { isOriginAllowed } from "./config/corsOrigins.js";
 
 const app = express();
 
-const clientOrigin = process.env.CLIENT_URL || "http://localhost:5173";
-
 app.use(
   cors({
-    origin: clientOrigin,
+    origin: (origin, callback) => {
+      callback(null, isOriginAllowed(origin));
+    },
     credentials: true,
   })
 );

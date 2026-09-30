@@ -4,18 +4,18 @@ import connectDB from "./config/database.js";
 import http from "http";
 import { Server } from "socket.io";
 import { initializeSocket } from "./socket/socket.js";
+import { getCorsOrigins } from "./config/corsOrigins.js";
 
 dotenv.config();
 
 const PORT = Number(process.env.PORT) || 5000;
 const HOST = "0.0.0.0";
-const clientOrigin = process.env.CLIENT_URL || "http://localhost:5173";
 
 const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: clientOrigin,
+    origin: getCorsOrigins(),
     credentials: true,
   },
 });

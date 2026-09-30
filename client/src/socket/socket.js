@@ -1,7 +1,9 @@
 import { io } from "socket.io-client";
+import { API_BASE_URL } from "../config/env.js";
 
-const socket = io("http://localhost:5000", {
-  transports: ["websocket"],
+const socket = io(API_BASE_URL, {
+  transports: ["websocket", "polling"],
+  withCredentials: true,
 });
 
 socket.on("connect", () => {
