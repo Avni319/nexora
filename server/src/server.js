@@ -7,21 +7,22 @@ import { initializeSocket } from "./socket/socket.js";
 
 dotenv.config();
 
-const PORT = process.env.PORT || 5000;
-
-connectDB();
+const PORT = Number(process.env.PORT) || 5000;
+const HOST = "0.0.0.0";
+const clientOrigin = process.env.CLIENT_URL || "http://localhost:5173";
 
 const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: clientOrigin,
     credentials: true,
   },
 });
 
 initializeSocket(io);
 
-server.listen(PORT, () => {
-  console.log(`Server running on ${PORT}`);
+server.listen(PORT, HOST, () => {
+  console.log(`Server running on http://${HOST}:${PORT}`);
+  connectDB();
 });

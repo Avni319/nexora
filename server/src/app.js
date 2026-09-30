@@ -17,9 +17,11 @@ import meetingRoutes from "./routes/meetingRoutes.js";
 
 const app = express();
 
+const clientOrigin = process.env.CLIENT_URL || "http://localhost:5173";
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: clientOrigin,
     credentials: true,
   })
 );
